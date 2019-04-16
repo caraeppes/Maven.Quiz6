@@ -1,7 +1,7 @@
 package rocks.zipcode.io.fundamentals;
 
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  * @author leon on 10/01/2019.
@@ -12,13 +12,35 @@ public class StringUtils {
      * @return collection containing all permutations of casing of this string
      */
     public static Collection<String> getAllCasings(String string) {
-        // get length of string
-        // get range of length
-        // get power-set of range
+        List<String> result = new ArrayList<>();
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < string.length(); i++) {
+            set.add(i);
+        }
+        Set<Set<Integer>> powerSet = getPowerSet(set);
+        for (Set<Integer> s : powerSet) {
+            result.add(upperCaseIndices(string, s.toArray(new Integer[s.size()])));
+        }
+        return result;
+    }
 
-        // for every set in power-set
-            // uppercase indices of string using set
-        return null;
+    public static <Integer> Set<Set<Integer>> getPowerSet(Set<Integer> set) {
+        Set<Set<Integer>> sets = new HashSet<>();
+        if (set.isEmpty()) {
+            sets.add(new HashSet<>());
+            return sets;
+        }
+        List<Integer> list = new ArrayList<>(set);
+        Integer head = list.get(0);
+        Set<Integer> rest = new HashSet<>(list.subList(1, list.size()));
+        for (Set<Integer> integerSet : getPowerSet(rest)) {
+            Set<Integer> newSet = new HashSet<>();
+            newSet.add(head);
+            newSet.addAll(integerSet);
+            sets.add(newSet);
+            sets.add(integerSet);
+        }
+        return sets;
     }
 
     /**
@@ -27,7 +49,11 @@ public class StringUtils {
      * @return near-identical string whose characters at specified indices are capitalized
      */
     public static String upperCaseIndices(String string, Integer... indices) {
-        return null;
+        String result = string;
+        for (Integer i : indices) {
+            result = replaceAtIndex(result, Character.toUpperCase(string.charAt(i)), i);
+        }
+        return result;
     }
 
     /**
@@ -37,7 +63,9 @@ public class StringUtils {
      * @return near-identical string with `valueToBeInserted` inserted at `index`
      */
     public static String insertAtIndex(String stringToBeManipulated, String valueToBeInserted, Integer index) {
-        return null;
+        StringBuilder stringBuilder = new StringBuilder(stringToBeManipulated.substring(0, index));
+        stringBuilder.append(valueToBeInserted).append(stringToBeManipulated.substring(index));
+        return stringBuilder.toString();
     }
 
     /**
@@ -47,6 +75,8 @@ public class StringUtils {
      * @return near-identical string with character at `index` replaced with `replacementValue`
      */
     public static String replaceAtIndex(String stringToBeManipulated, Character replacementValue, Integer index) {
-        return null;
+        StringBuilder stringBuilder = new StringBuilder(stringToBeManipulated.substring(0, index));
+        stringBuilder.append(replacementValue).append(stringToBeManipulated.substring(index + 1));
+        return stringBuilder.toString();
     }
 }
