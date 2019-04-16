@@ -4,14 +4,29 @@ import java.util.Arrays;
 import java.util.function.Predicate;
 
 public enum TVChannel {
-    ADD_ENUMERATIONS_HERE;
+    MSN("MSN"),
+    CNN("CNN"),
+    FOX("FOX"),
+    AE("AE"),
+    MTV("MTV"),
+    BET("BET"),
+    HBO("HBO"),
+    NBC("NBC"),
+    CBS("CBS");
+
+    String name;
+
+    TVChannel(String name){
+        this.name = name;
+    }
+
 
     /**
      * @param ordinal; ordinal of the expected enumeration
      * @return enumeration with respective ordinal
      */
     public static TVChannel getByOrdinal(Integer ordinal) {
-        return null;
+        return TVChannel.values()[ordinal];
     }
 
     /**
